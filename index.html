@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EatWise - Smart Nutrition, Delivered Daily</title>
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #4CAF50;
+            --dark-green: #388E3C;
+            --light-green: #81C784;
+            --light-yellow: #FFF9C4;
+            --accent-yellow: #FFF59D;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--dark-green);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary-green);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-green);
+            transition: 0.3s;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-green);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-green);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-green);
+            color: var(--white);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--light-yellow) 0%, var(--accent-yellow) 100%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            margin-top: 3rem;
+            font-size: 5rem;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* ===== FEATURES GRID ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            background: var(--light-gray);
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-green);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            color: var(--dark-green);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== MEAL PLANS ===== */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .plan-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .plan-card:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .plan-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .plan-card ul {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .plan-card li {
+            padding: 0.5rem 0;
+            color: var(--text-light);
+        }
+
+        .plan-card li:before {
+            content: "✓ ";
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials {
+            background: var(--light-gray);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .author-info h4 {
+            color: var(--dark-green);
+        }
+
+        .author-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-light {
+            background: var(--white);
+            color: var(--primary-green);
+        }
+
+        .btn-light:hover {
+            background: var(--light-gray);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 3rem 20px 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--light-green);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--light-gray);
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: var(--light-green);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--text-light);
+            color: var(--light-gray);
+        }
+
+        /* ===== ABOUT PAGE ===== */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .about-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: 10px;
+        }
+
+        .value-item h4 {
+            color: var(--dark-green);
+            margin-top: 0.5rem;
+        }
+
+        /* ===== SERVICES PAGE ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary-green);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== PRICING PAGE ===== */
+        .pricing-toggle {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .toggle-buttons {
+            display: inline-flex;
+            background: var(--light-gray);
+            border-radius: 50px;
+            padding: 5px;
+        }
+
+        .toggle-btn {
+            padding: 10px 30px;
+            border: none;
+            background: transparent;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary-green);
+            color: var(--white);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--primary-green);
+            transform: scale(1.05);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: var(--primary-green);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .price {
+            font-size: 3rem;
+            color: var(--primary-green);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: var(--text-light);
+        }
+
+        .pricing-features li:before {
+            content: "✓ ";
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        /* ===== CONTACT PAGE ===== */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-green);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .contact-info {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+        }
+
+        .info-item h4 {
+            color: var(--dark-green);
+            margin-bottom: 0.25rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: var(--white);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--shadow);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Hide all pages initially */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo" data-page="home">Eat<span>Wise</span></a>
+            <ul class="nav-menu">
+                <li><a href="#" data-page="home" class="active">Home</a></li>
+                <li><a href="#" data-page="about">About</a></li>
+                <li><a href="#" data-page="services">Services</a></li>
+                <li><a href="#" data-page="pricing">Pricing</a></li>
+                <li><a href="#" data-page="contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Smart Nutrition, Delivered Daily</h1>
+                <p class="tagline">Personalized meal plans crafted by certified nutritionists</p>
+                <a href="#" class="btn btn-primary" data-page="pricing">Start Eating Smart</a>
+                <div class="hero-image">🥗🥑🍎</div>
+            </div>
+        </section>
+
+        <!-- Why EatWise Section -->
+        <section id="why-eatwise">
+            <div class="container">
+                <h2 class="section-title">Why Choose EatWise?</h2>
+                <p class="section-subtitle">We're committed to making healthy eating simple and sustainable</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">👨‍⚕️</div>
+                        <h3>Expert Nutritionists</h3>
+                        <p>Every meal plan is designed by certified nutritionists who understand your unique dietary needs and health goals.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🍱</div>
+                        <h3>Fresh Daily Meals</h3>
+                        <p>Prepared fresh in our cloud kitchen every morning using premium quality ingredients sourced from trusted suppliers.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Personalized Plans</h3>
+                        <p>Customized meal plans tailored to your body type, lifestyle, dietary preferences, and health objectives.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚚</div>
+                        <h3>On-Time Delivery</h3>
+                        <p>Reliable delivery service ensuring your meals reach you fresh and on time, every single day.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Getting started is simple and hassle-free</p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Choose Your Plan</h3>
+                        <p>Select a meal plan that aligns with your health goals from our curated options.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Get Your Nutritionist</h3>
+                        <p>Connect with a certified nutritionist who will personalize your meal plan.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Daily Delivery</h3>
+                        <p>Receive fresh, delicious meals delivered to your doorstep every day.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Meal Plans -->
+        <section id="meal-plans">
+            <div class="container">
+                <h2 class="section-title">Popular Meal Plans</h2>
+                <p class="section-subtitle">Specially designed plans for your specific health needs</p>
+                <div class="plans-grid">
+                    <div class="plan-card">
+                        <h3>🏃 Weight Loss</h3>
+                        <p>Balanced, calorie-controlled meals to help you lose weight sustainably.</p>
+                        <ul>
+                            <li>High protein, low carb meals</li>
+                            <li>Portion-controlled servings</li>
+                            <li>Metabolism-boosting ingredients</li>
+                            <li>Weekly progress tracking</li>
+                        </ul>
+                    </div>
+                    <div class="plan-card">
+                        <h3>💪 Muscle Gain</h3>
+                        <p>Protein-rich meals to support your fitness and muscle-building goals.</p>
+                        <ul>
+                            <li>High-protein content</li>
+                            <li>Complex carbohydrates</li>
+                            <li>Post-workout meals</li>
+                            <li>Strength-building nutrients</li>
+                        </ul>
+                    </div>
+                    <div class="plan-card">
+                        <h3>🩺 Diabetic Friendly</h3>
+                        <p>Low-GI meals carefully crafted to manage blood sugar levels effectively.</p>
+                        <ul>
+                            <li>Low glycemic index foods</li>
+                            <li>Sugar-free desserts</li>
+                            <li>Fiber-rich meals</li>
+                            <li>Blood sugar friendly</li>
+                        </ul>
+                    </div>
+                    <div class="plan-card">
+                        <h3>🌸 PCOS Management</h3>
+                        <p>Hormone-balancing meals designed specifically for PCOS management.</p>
+                        <ul>
+                            <li>Anti-inflammatory foods</li>
+                            <li>Hormone-balancing nutrients</li>
+                            <li>Low sugar content</li>
+                            <li>Whole food ingredients</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Real stories from real people</p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"EatWise changed my life! I lost 15kg in 4 months without feeling hungry. The meals are delicious and the nutritionist support is incredible."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">P</div>
+                            <div class="author-info">
+                                <h4>Priya Sharma</h4>
+                                <p>Weight Loss Plan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"As a diabetic, finding the right food was always challenging. EatWise's diabetic-friendly meals have helped me maintain my blood sugar levels perfectly."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">R</div>
+                            <div class="author-info">
+                                <h4>Rajesh Kumar</h4>
+                                <p>Diabetic Plan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"The muscle gain plan is perfect for my fitness goals. High-quality proteins, great taste, and amazing results. Gained 8kg of lean muscle!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">A</div>
+                            <div class="author-info">
+                                <h4>Arjun Mehta</h4>
+                                <p>Muscle Gain Plan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Start Your Health Journey?</h2>
+                <p>Join thousands of happy customers who transformed their lives with EatWise</p>
+                <a href="#" class="btn btn-light" data-page="pricing">View Pricing Plans</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page">
+        <section style="padding-top: 100px;">
+            <div class="container about-content">
+                <h1 class="section-title">About EatWise</h1>
+                <p class="section-subtitle">Making healthy eating accessible, affordable, and delicious</p>
+
+                <div class="about-card">
+                    <h3>🌱 Our Mission</h3>
+                    <p>At EatWise, we believe that everyone deserves access to nutritious, delicious food that fuels their body and mind. Our mission is to revolutionize the way people think about healthy eating by making it convenient, personalized, and genuinely enjoyable. We're not just delivering meals – we're delivering a lifestyle transformation.</p>
+                </div>
+
+                <div class="about-card">
+                    <h3>💡 Why We Started</h3>
+                    <p>EatWise was born from a simple observation: people want to eat healthy, but modern life makes it incredibly difficult. Between busy schedules, confusing nutrition information, and the effort required to plan and prepare balanced meals, most people struggle to maintain healthy eating habits. We started EatWise to solve this problem – to make nutrition simple, accessible, and sustainable for everyone.</p>
+                </div>
+
+                <div class="about-card">
+                    <h3>⭐ What Makes Us Different</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 0.5rem 0;">✓ <strong>Certified Nutritionist Support:</strong> Every customer gets personalized guidance from qualified nutrition experts</li>
+                        <li style="padding: 0.5rem 0;">✓ <strong>Cloud Kitchen Technology:</strong> State-of-the-art facilities ensure maximum freshness and hygiene</li>
+                        <li style="padding: 0.5rem 0;">✓ <strong>Data-Driven Approach:</strong> We use nutrition science and customer feedback to continuously improve</li>
+                        <li style="padding: 0.5rem 0;">✓ <strong>Flexible Customization:</strong>
